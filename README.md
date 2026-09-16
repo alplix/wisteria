@@ -10,14 +10,37 @@ restricted per the upstream authors' request. GPLv2+ like upstream.
 
 ## Downloads
 
-- **[Latest release](https://github.com/alplix/wisteria-fgrp5/releases/latest)** - v0.5.1
+- **[Latest release](https://github.com/alplix/wisteria/releases/latest)** - v0.5.2
   - Linux x86-64 tarball: static build, baseline ISA (runs on any 64-bit x86 CPU)
   - Linux x86-64 v3 tarball: AVX2/FMA optimized static build (2013+ CPUs, ~15-30% faster)
   - Linux aarch64 tarball: Jetson, Raspberry Pi 5, Ampere
   - Windows x64 baseline zip: self-contained executable, runs on any x64 CPU
   - Windows x64 v3 zip: AVX2/FMA build (2013+ CPUs, ~15-30% faster)
 
-### v0.5.1 (current) - bundled FFT wisdom, no wait for most users
+### v0.5.2 (current) - coherent follow-up rewrite (fixes real validator rejections)
+
+Critical fix - if v0.5.0/v0.5.1 got you `Validate error` on tasks that
+otherwise ran fine, this is why. Two independent field reports came back
+invalid despite a correct sky grid and a crash-free computation: real
+work units send `--Srefinement 1 --CohSkyRef 1 --cohfullskybox 1
+--cohFollow 10`, a whole coherent follow-up pipeline this port never
+implemented - it followed up only the single rough semicoherent
+candidate at its own sky point and wrote 1 output row where upstream
+writes up to `--toplist` rows.
+
+Now ported: up to `min(--toplist, --cohFollow)` candidates (10 on real
+work units), each optionally refined in (f0,f1,alpha,delta) via a finer
+sky scan, then searched over a coherent sky grid, all merged into one
+shared toplist and written in full. Verified with an injected-signal
+demo: exactly `--toplist` rows, correctly sorted, every candidate
+clustered tightly around the true signal.
+
+Trade-off: the coherent sky grid adds real compute, roughly another
+20-40 minutes at real work-unit scale by estimate - worthwhile against
+the alternative of the whole task being wasted on a guaranteed-invalid
+result. `app_info.xml` bumped to **152**.
+
+### v0.5.1 - bundled FFT wisdom, no wait for most users
 
 The single biggest remaining per-step cost was the FFT itself, and the
 "MEASURE" plan that makes it ~4x faster took a one-off 8-9 minute
