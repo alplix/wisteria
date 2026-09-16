@@ -31,6 +31,7 @@ page, so this README stays put while the releases do the talking.
 | 🐧 Linux x86-64 | any 64-bit x86 CPU | baseline, static build |
 | 🐧 Linux x86-64-v3 | Intel Haswell+ / AMD Excavator+ (2013+) | AVX2/FMA, ~15-30% faster |
 | 🐧 Linux aarch64 | 64-bit ARM | Jetson, Raspberry Pi 5, Ampere, etc. |
+| 🐧 Linux riscv64 | 64-bit RISC-V | new! no live progress % (stub BOINC API) |
 | 🪟 Windows x86-64 | any 64-bit x64 CPU | baseline |
 | 🪟 Windows x86-64-v3 | Intel Haswell+ / AMD Excavator+ (2013+) | AVX2/FMA |
 
@@ -77,14 +78,15 @@ to touch anything beyond the install steps above. For the curious:
 - **⚡ FFT plan / wisdom** — the app auto-detects a pre-measured FFTW
   plan (`wisteria_fftwf_wisdom.dat`, shipped for Linux x86-64/x86-64-v3
   and Windows x86-64/x86-64-v3) — zero setup, zero wait. Want a plan
-  tuned to your *exact* host instead (or you're on aarch64, which ships
-  without one)? Run once with `--fftwMeasure 1` — it gets cached next
-  to the project files and reused by every later task.
-- **📊 Progress reporting** — Linux and aarch64 link the real BOINC API
-  and report progress normally. The Windows build links a stub BOINC
-  API (the real one can't be cross-compiled here), so Windows tasks
-  show no progress percentage in the client — don't worry, it's still
-  crunching away happily in the background.
+  tuned to your *exact* host instead (or you're on aarch64/riscv64,
+  which ship without one)? Run once with `--fftwMeasure 1` — it gets
+  cached next to the project files and reused by every later task.
+- **📊 Progress reporting** — Linux x86-64/x86-64-v3/aarch64 link the
+  real BOINC API and report progress normally. The Windows and riscv64
+  builds link a stub BOINC API instead (the real one can't be
+  cross-compiled for those yet), so those tasks show no progress
+  percentage in the client — don't worry, it's still crunching away
+  happily in the background.
 
 The executable prints a short banner to stderr on startup (GPL notice,
 version, and this project's URL) — handy for confirming which build a
