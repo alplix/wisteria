@@ -32,7 +32,7 @@ page, so this README stays put while the releases do the talking.
 | 🐧 Linux x86-64-v3 | Intel Haswell+ / AMD Excavator+ (2013+) | AVX2/FMA, ~15-30% faster |
 | 🐧 Linux aarch64 | 64-bit ARM | Jetson, Raspberry Pi 5, Ampere, etc. |
 | 🐧 Linux riscv64 | 64-bit RISC-V | no live progress % (stub BOINC API) |
-| 🍎 Apple Silicon (arm64) | M1/M2/M3/M4 Macs | new! no live progress % (stub BOINC API) |
+| 🍎 Apple Silicon (arm64) | M1/M2/M3/M4 Macs | no live progress % (stub BOINC API) |
 | 🪟 Windows x86-64 | any 64-bit x64 CPU | baseline |
 | 🪟 Windows x86-64-v3 | Intel Haswell+ / AMD Excavator+ (2013+) | AVX2/FMA |
 
@@ -78,11 +78,12 @@ to touch anything beyond the install steps above. For the curious:
   `app_info.xml` (see the packaged `app_config.xml` for an example), or
   pass `--nthreads N` directly.
 - **⚡ FFT plan / wisdom** — the app auto-detects a pre-measured FFTW
-  plan (`wisteria_fftwf_wisdom.dat`, shipped for Linux x86-64/x86-64-v3
-  and Windows x86-64/x86-64-v3) — zero setup, zero wait. Want a plan
-  tuned to your *exact* host instead (or you're on aarch64/riscv64/
-  macOS, which ship without one)? Run once with `--fftwMeasure 1` — it
-  gets cached next to the project files and reused by every later task.
+  plan (`wisteria_fftwf_wisdom.dat`, shipped for Linux x86-64/x86-64-v3,
+  Windows x86-64/x86-64-v3, and macOS arm64) — zero setup, zero wait.
+  Want a plan tuned to your *exact* host instead (or you're on
+  aarch64/riscv64, which ship without one)? Run once with
+  `--fftwMeasure 1` — it gets cached next to the project files and
+  reused by every later task.
 - **📊 Progress reporting** — Linux x86-64/x86-64-v3/aarch64 link the
   real BOINC API and report progress normally. The Windows, riscv64 and
   macOS builds link a stub BOINC API instead (the real one isn't built
