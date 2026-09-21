@@ -31,7 +31,8 @@ page, so this README stays put while the releases do the talking.
 | starts with | what it is | who it is for |
 |---|---|---|
 | **`CPU_`** | the normal app, runs on the processor | **everybody** — if you are unsure, take one of these |
-| **`GPU_`** | the same app that also uses the graphics card | anyone who wants to try GPU support (experimental) |
+| **`GPU-CUDA_`** | the same app that also uses an **NVIDIA** graphics card (CUDA) | NVIDIA owners who want to try GPU support (experimental) |
+| **`GPU-OpenCL_`** | the same app that also uses a graphics card through OpenCL | **AMD, Intel, Apple silicon**, phones and other cards (experimental) |
 
 ---
 
@@ -59,7 +60,7 @@ page, so this README stays put while the releases do the talking.
 > matching picks the right one automatically in normal distribution;
 > for a manual anonymous-platform install, match it yourself.
 
-### `GPU_` packages — new in v0.6.0, experimental
+### `GPU-CUDA_` and `GPU-OpenCL_` packages — new in v0.6.0, experimental
 
 The task is still an ordinary one-core CPU task as far as BOINC is
 concerned (no GPU app to configure; credit and validation are unchanged);
@@ -70,12 +71,12 @@ says so and the task simply runs on the CPU.
 
 | Package | Graphics card | Tried on real hardware |
 |---|---|---|
-| `GPU_…_windows_x86-64_gpu` / `GPU_…_linux_x86-64_gpu` | **NVIDIA**, CUDA, GTX 750 (2014) up to RTX 50 | RTX 5070 Ti, RTX 3050 |
-| `GPU_…_windows_x86-64_opencl` / `GPU_…_linux_x86-64_opencl` | **AMD**, **Intel**, NVIDIA and other OpenCL GPUs | RTX 5070 Ti, RTX 3050 (NVIDIA's OpenCL only) |
-| `GPU_…_macos_arm64_opencl` | **Apple silicon** GPU | M1 |
-| `GPU_…_android_aarch64_opencl` | phone / tablet GPUs (Mali, Adreno, …) | none yet |
-| `GPU_…_linux_aarch64_opencl` | ARM boards and servers with an OpenCL GPU | CPU-based OpenCL only |
-| `GPU_…_linux_aarch64_gpu` | **NVIDIA Jetson** (JetPack 6), ARM servers with NVIDIA cards | none yet |
+| `GPU-CUDA_…_windows_x86-64` / `GPU-CUDA_…_linux_x86-64` | **NVIDIA**, GTX 750 (2014) up to RTX 50 | RTX 5070 Ti, RTX 3050 |
+| `GPU-CUDA_…_linux_aarch64` | **NVIDIA Jetson** (JetPack 6), ARM servers with NVIDIA cards | none yet |
+| `GPU-OpenCL_…_windows_x86-64` / `GPU-OpenCL_…_linux_x86-64` | **AMD**, **Intel**, NVIDIA and other OpenCL GPUs | RTX 5070 Ti, RTX 3050 (NVIDIA's OpenCL only) |
+| `GPU-OpenCL_…_macos_arm64` | **Apple silicon** GPU | M1 |
+| `GPU-OpenCL_…_android_aarch64` | phone / tablet GPUs (Mali, Adreno, …) | none yet |
+| `GPU-OpenCL_…_linux_aarch64` | ARM boards and servers with an OpenCL GPU | CPU-based OpenCL only |
 
 Results checked against the stock app on a real work-unit slice: the
 follow-up file is byte-identical and the powers agree to better than
@@ -93,7 +94,7 @@ the details (GPU memory per task: about 1.1–1.4 GB).
 2. 📂 Unpack the release archive for your platform.
 3. 📋 Copy **all** the files of the package — `wisteria` (or
    `wisteria.exe` on Windows), `app_info.xml`, `app_config.xml`, and for
-   a `GPU_` package also the GPU library that sits next to the program
+   a `GPU-…` package also the GPU library that sits next to the program
    (`wisteria_gpu.dll`, `wisteria_ocl.dll`, `libwisteria_ocl.so`,
    `libwisteria_ocl.dylib`, `cufft64_11.dll`, whichever the package has) —
    into your Einstein@Home project directory:
@@ -109,7 +110,7 @@ the details (GPU memory per task: about 1.1–1.4 GB).
    *(not sure who that is? `ps aux | grep boinc` will tell you)*
 5. ▶️ Start the BOINC client. That's it — happy crunching! 🎉
 
-The package's own `INSTALL.txt` / `README-WIN.txt` (CPU) or `README-…`
+The package's own `INSTALL.txt` / `README-WIN.txt` (CPU) or `README-CUDA-…` / `README-OPENCL.txt`
 file (GPU) has the details for your system, including Android.
 
 **Changed your mind?** Remove `app_info.xml` (and `app_config.xml`)
@@ -135,7 +136,7 @@ to touch anything beyond the install steps above. For the curious:
   architecture, which ships without one)? Run once with
   `--fftwMeasure 1` — it gets cached next to the project files and
   reused by every later task.
-- **🎮 GPU options** (`GPU_` packages, in `app_config.xml`'s `<cmdline>`):
+- **🎮 GPU options** (`GPU-…` packages, in `app_config.xml`'s `<cmdline>`):
   `--gpu 3` everything the GPU can do (default there), `--gpu 0` no GPU,
   `--gpuDevice N` pick card N, `--gpuApi 0/1/2` CUDA-then-OpenCL / CUDA
   only / OpenCL only. Limit `<max_concurrent>` so that
