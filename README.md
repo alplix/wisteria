@@ -26,7 +26,7 @@ is restricted per the upstream authors' request. GPLv2+ like upstream.
 Every version's changelog — and every past release — lives on that
 page, so this README stays put while the releases do the talking.
 
-**Which file do I take?** The file names tell you:
+**Which file do I take?** The file names tell you (the number after the prefix is the version: `061` = v0.6.1):
 
 | starts with | what it is | who it is for |
 |---|---|---|
