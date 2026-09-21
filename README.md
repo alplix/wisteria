@@ -140,11 +140,12 @@ to touch anything beyond the install steps above. For the curious:
   `--gpuDevice N` pick card N, `--gpuApi 0/1/2` CUDA-then-OpenCL / CUDA
   only / OpenCL only. Limit `<max_concurrent>` so that
   (tasks) × 1.5 GB fits into your card's memory.
-- **📊 Progress reporting** — Linux x86-64/x86-64-v3/aarch64 link the
-  real BOINC API and report progress normally. The other builds (Windows,
-  macOS, Android, FreeBSD, armhf, ppc64le, riscv64) link a stub BOINC API
-  instead, so those tasks show no progress percentage in the client —
-  don't worry, it's still crunching away in the background.
+- **📊 Progress reporting** — Windows and Linux x86-64/x86-64-v3/aarch64
+  link BOINC's real library and report progress, CPU time and checkpoints
+  normally (and pause or stop cleanly when the client asks). The other
+  builds (macOS, Android, FreeBSD, armhf, ppc64le, riscv64) still link a
+  small stand-in instead, so those tasks show no progress percentage in
+  the client — don't worry, they are still crunching away in the background.
 
 The executable prints a short banner to stderr on startup (GPL notice,
 version, and this project's URL) — handy for confirming which build a
