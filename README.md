@@ -46,6 +46,8 @@ page, so this README stays put while the releases do the talking.
 | 🐧 Linux x86-64 | any 64-bit x86 CPU | baseline, static build |
 | 🐧 Linux x86-64-v3 | Intel Haswell+ / AMD Excavator+ (2013+) | AVX2/FMA, ~15-30% faster |
 | 🐧 Linux aarch64 | 64-bit ARM | Raspberry Pi 4/5, Orange Pi, Jetson, Ampere, etc.; NEON |
+| 🐧 Linux x86-64 avx512 | CPUs with AVX-512: Xeon Phi x200 (Knights Landing), Skylake-X and newer Xeons, AMD Zen 4/5 | experimental; checked in an emulator, speed not measured yet |
+| 🐧 Linux aarch64 sve | ARM64 CPUs with SVE: Fujitsu A64FX, Graviton 3/4, Grace, Neoverse V1/V2/N2 | experimental; checked in an emulator, speed not measured yet |
 | 🐧 Linux armhf | 32-bit ARM with NEON | Raspberry Pi 2+ on a 32-bit OS; tested in an emulator only |
 | 🐧 Linux ppc64le | PowerPC64 little-endian, POWER8+ | tested in an emulator only |
 | 🐧 Linux riscv64 | 64-bit RISC-V | tested in an emulator only |
@@ -55,6 +57,10 @@ page, so this README stays put while the releases do the talking.
 | 😈 FreeBSD amd64 | FreeBSD 14 | native, static |
 | 🤖 Android aarch64 | phones / tablets, Android 7.0+ | confirmed working on a real device |
 
+> ⚠️ The **avx512** and **sve** packages stop with "illegal instruction" on a CPU without AVX-512 / SVE
+> (`grep -o -w -E 'avx512f|avx512cd' /proc/cpuinfo` must print both words; `grep -o -w sve /proc/cpuinfo` must print `sve`).
+> If you are not sure, take the baseline or the normal aarch64 package.
+>
 > ⚠️ The **x86-64-v3** builds will *not* run on CPUs without AVX2/FMA —
 > they crash with SIGILL (illegal instruction). Not sure about your
 > CPU? Pick the baseline build, it always works. BOINC's own plan-class
