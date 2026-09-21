@@ -26,12 +26,13 @@ is restricted per the upstream authors' request. GPLv2+ like upstream.
 Every version's changelog — and every past release — lives on that
 page, so this README stays put while the releases do the talking.
 
-**Which file do I take?** The file names tell you (the number after the prefix is the version: `061` = v0.6.1):
+**Which file do I take?** The file names tell you (the number after the prefix is the version: `062` = v0.6.2):
 
 | starts with | what it is | who it is for |
 |---|---|---|
 | **`CPU_`** | the normal app, runs on the processor | **everybody** — if you are unsure, take one of these |
-| **`GPU-CUDA_`** | the same app that also uses an **NVIDIA** graphics card (CUDA) | NVIDIA owners who want to try GPU support (experimental) |
+| **`GPU-CUDA_`** | the same app that also uses an **NVIDIA** graphics card (CUDA) | NVIDIA owners (GTX 750 and newer) who want to try GPU support (experimental) |
+| **`GPU-CUDA-Kepler_`** | the same for **old NVIDIA cards** (Kepler: GT 710/730, GTX 600/700 series, TITAN) | owners of those old cards (experimental, untested on real hardware) |
 | **`GPU-OpenCL_`** | the same app that also uses a graphics card through OpenCL | **AMD, Intel, Apple silicon**, phones and other cards (experimental) |
 
 ---
@@ -60,7 +61,7 @@ page, so this README stays put while the releases do the talking.
 > matching picks the right one automatically in normal distribution;
 > for a manual anonymous-platform install, match it yourself.
 
-### `GPU-CUDA_` and `GPU-OpenCL_` packages — new in v0.6.0, experimental
+### `GPU-CUDA_`, `GPU-CUDA-Kepler_` and `GPU-OpenCL_` packages — experimental
 
 The task is still an ordinary one-core CPU task as far as BOINC is
 concerned (no GPU app to configure; credit and validation are unchanged);
@@ -73,12 +74,13 @@ says so and the task simply runs on the CPU.
 |---|---|---|
 | `GPU-CUDA_…_windows_x86-64` / `GPU-CUDA_…_linux_x86-64` | **NVIDIA**, GTX 750 (2014) up to RTX 50 | RTX 5070 Ti, RTX 3050 |
 | `GPU-CUDA_…_linux_aarch64` | **NVIDIA Jetson** (JetPack 6), ARM servers with NVIDIA cards | none yet |
+| `GPU-CUDA-Kepler_…_windows_x86-64` / `GPU-CUDA-Kepler_…_linux_x86-64` | **old NVIDIA cards**, Kepler generation (compute capability 3.5/3.7; on Linux also 3.0) | none yet (checked on a current card through PTX) |
 | `GPU-OpenCL_…_windows_x86-64` / `GPU-OpenCL_…_linux_x86-64` | **AMD**, **Intel**, NVIDIA and other OpenCL GPUs | RTX 5070 Ti, RTX 3050 (NVIDIA's OpenCL only) |
 | `GPU-OpenCL_…_macos_arm64` | **Apple silicon** GPU | M1 |
 | `GPU-OpenCL_…_android_aarch64` | phone / tablet GPUs (Mali, Adreno, …) | none yet |
 | `GPU-OpenCL_…_linux_aarch64` | ARM boards and servers with an OpenCL GPU | CPU-based OpenCL only |
 
-Results checked against the stock app on a real work-unit slice: the
+Every task first compares the GPU with the CPU and drops a GPU that disagrees, so an untested driver cannot hand in a wrong result. Results checked against the stock app on a real work-unit slice: the
 follow-up file is byte-identical and the powers agree to better than
 4·10⁻⁶. **No GPU-made result has been through the project's validator
 yet**, and AMD, Intel, Adreno, Mali and Jetson have not been tried on
@@ -141,12 +143,9 @@ to touch anything beyond the install steps above. For the curious:
   `--gpuDevice N` pick card N, `--gpuApi 0/1/2` CUDA-then-OpenCL / CUDA
   only / OpenCL only. Limit `<max_concurrent>` so that
   (tasks) × 1.5 GB fits into your card's memory.
-- **📊 Progress reporting** — Windows and Linux x86-64/x86-64-v3/aarch64
-  link BOINC's real library and report progress, CPU time and checkpoints
-  normally (and pause or stop cleanly when the client asks). The other
-  builds (macOS, Android, FreeBSD, armhf, ppc64le, riscv64) still link a
-  small stand-in instead, so those tasks show no progress percentage in
-  the client — don't worry, they are still crunching away in the background.
+- **📊 Progress reporting** — since v0.6.2 every build
+  links BOINC's real library and reports progress, CPU time and checkpoints
+  normally (and pauses or stops cleanly when the client asks).
 
 The executable prints a short banner to stderr on startup (GPL notice,
 version, and this project's URL) — handy for confirming which build a
