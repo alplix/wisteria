@@ -26,7 +26,7 @@ is restricted per the upstream authors' request. GPLv2+ like upstream.
 Every version's changelog — and every past release — lives on that
 page, so this README stays put while the releases do the talking.
 
-**Which file do I take?** The file names tell you (the number after the prefix is the version: `062` = v0.6.2):
+**Which file do I take?** The file names tell you (the number after the prefix is the version: `063` = v0.6.3):
 
 | starts with | what it is | who it is for |
 |---|---|---|
@@ -34,6 +34,8 @@ page, so this README stays put while the releases do the talking.
 | **`GPU-CUDA_`** | the same app that also uses an **NVIDIA** graphics card (CUDA) | NVIDIA owners (GTX 750 and newer) who want to try GPU support (experimental) |
 | **`GPU-CUDA-Kepler_`** | the same for **old NVIDIA cards** (Kepler: GT 710/730, GTX 600/700 series, TITAN) | owners of those old cards (experimental, untested on real hardware) |
 | **`GPU-OpenCL_`** | the same app that also uses a graphics card through OpenCL | **AMD, Intel, Apple silicon**, phones and other cards (experimental) |
+
+> ℹ️ **v0.6.3** fixes a crash (`process got signal 11` a few seconds into a task, seen on Linux Mint / Ubuntu with glibc 2.39): BOINC's own progress thread had a 32 KiB stack that overflowed. Not rebuilt yet, so still to be taken from the [v0.6.2 release](https://github.com/alplix/wisteria/releases/tag/v0.6.2): the Android packages, the Linux aarch64 CUDA/OpenCL packages and the Linux x86-64 CUDA-Kepler package.
 
 ---
 
